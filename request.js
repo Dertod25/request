@@ -845,7 +845,7 @@ Request.prototype.start = function () {
           var e = new Error('ETIMEDOUT')
           e.code = 'ETIMEDOUT'
           e.connect = true
-          self.emit('error', e)
+          self.emit('error', {error:e,self:self})
         }, timeout)
       } else {
         // We're already connected
