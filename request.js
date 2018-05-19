@@ -765,6 +765,7 @@ Request.prototype.start = function () {
   }
 
   var timeout
+  console.log('self.timeout & self.timeoutTimer',self.timeout,self.timeoutTimer)
   if (self.timeout && !self.timeoutTimer) {
     if (self.timeout < 0) {
       timeout = 0
@@ -780,9 +781,10 @@ Request.prototype.start = function () {
   })
 
   self.req.on('socket', function (socket) {
-    console.log('****socket')
+    console.log('****socket',socket)
     // `._connecting` was the old property which was made public in node v6.1.0
     var isConnecting = socket._connecting || socket.connecting
+    console.log('****isConnecting',isConnecting)
     if (self.timing) {
       self.timings.socket = now() - self.startTimeNow
 
@@ -823,6 +825,7 @@ Request.prototype.start = function () {
       })
     }
     if (timeout !== undefined) {
+      console.log('**********timeout:',timeout)
       // Only start the connection timer if we're actually connecting a new
       // socket, otherwise if we're already connected (because this is a
       // keep-alive connection) do not bother. This is important since we won't
