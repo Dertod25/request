@@ -481,8 +481,10 @@ Request.prototype.init = function (options) {
   }
 
   if (self.pool === false) {
+    console.log('****************************self.agent = false')
     self.agent = false
   } else {
+    console.log('****************************self.getNewAgent()')
     self.agent = self.agent || self.getNewAgent()
   }
 
@@ -511,9 +513,9 @@ Request.prototype.init = function (options) {
       }
     }
 
-  // self.on('pipe', function () {
-  //   console.error('You have already piped to this stream. Pipeing twice is likely to break the request.')
-  // })
+    // self.on('pipe', function () {
+    //   console.error('You have already piped to this stream. Pipeing twice is likely to break the request.')
+    // })
   })
 
   defer(function () {
@@ -579,6 +581,7 @@ Request.prototype.init = function (options) {
 }
 
 Request.prototype.getNewAgent = function () {
+  console.log('getNewAgent')
   var self = this
   var Agent = self.agentClass
   var options = {}
@@ -682,6 +685,7 @@ Request.prototype.getNewAgent = function () {
   }
 
   if (self.pool === globalPool && !poolKey && Object.keys(options).length === 0 && self.httpModule.globalAgent) {
+    console.log('globalAgent')
     // not doing anything special.  Use the globalAgent
     return self.httpModule.globalAgent
   }
@@ -691,6 +695,7 @@ Request.prototype.getNewAgent = function () {
 
   // generate a new agent for this setting if none yet exists
   if (!self.pool[poolKey]) {
+    console.log('new Agent(options)')
     self.pool[poolKey] = new Agent(options)
     // properly set maxSockets on new agents
     if (self.pool.maxSockets) {
@@ -775,6 +780,7 @@ Request.prototype.start = function () {
   })
 
   self.req.on('socket', function (socket) {
+    console.log('****socket')
     // `._connecting` was the old property which was made public in node v6.1.0
     var isConnecting = socket._connecting || socket.connecting
     if (self.timing) {
